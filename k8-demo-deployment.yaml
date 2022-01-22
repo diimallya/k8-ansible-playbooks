@@ -1,0 +1,44 @@
+
+- name: Playbook for creating k8 objects
+  hosts: localhost
+  tasks:
+
+  # Creating a Kubernetes namespace
+
+  - name: Create a k8s namespace
+    k8s:
+      name: testing
+      api_version: v1
+      kind: Namespace
+      state: present
+
+  # Creating a Kubernetes pod in testing namespace using file stored locally
+
+  - name: Create a pod
+    k8s:
+      state: present      # State=present when you need to create new object
+      namespace: testing  # defining the namespace
+      src: ./object-yamls/nginx-pod.yaml
+
+  # Checking the a Kubernetes pods in the testing namespace
+
+  - name: Get an existing Pods in the kubernetes cluster
+    k8s:
+      api_version: v1
+      kind: pod
+      name: nginx
+      namespace: testing  # defining the namespace
+    register: web_service
+
+  # Creating a Kubernetes deployment in testing ns using file stored locally
+
+  - name: Create a deployment
+    k8s:
+      state: present            # State=present when you need to create new object
+      namespace: testing
+      src: ./object-yamls/hello-openshift-deployment.yaml  # Source file location
+
+
+  - name: Wait for all pods in testing namespace to come into Running state
+    shell: "kubectl wait --namespace=testing --for=condition=Ready pods --all --timeout=60s"
+    register: nginx_pods_ready

@@ -1,0 +1,28 @@
+
+- name: Playbook for creating k8 objects
+  hosts: localhost
+  tasks:
+  # Deleting a Kubernetes pod in testing namespace using file stored locally
+
+  - name: Delete a pod
+    k8s:
+      state: absent      # State=present when you need to create new object
+      namespace: testing  # defining the namespace
+      src: ./object-yamls/nginx-pod.yaml
+
+  # Deleting a Kubernetes deployment in testing ns using file stored locally
+
+  - name: Delete a deployment
+    k8s:
+      state: absent            # State=present when you need to create new object
+      namespace: testing
+      src: ./object-yamls/hello-openshift-deployment.yaml  # Source file location
+
+  # Deleting a Kubernetes namespace
+
+  - name: Delete k8s namespace
+    k8s:
+      name: testing
+      api_version: v1
+      kind: Namespace
+      state: absent
