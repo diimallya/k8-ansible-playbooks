@@ -9,16 +9,20 @@ This git repository demonstrates Ansible playbooks to create kubernetes objects 
 - Install Ansible
 
 - To create k8 objects ansible `k8s` modules is used. This is part of ansible package. It is not included in ansible-core. Make sure the `kubernetes.core` collection is installed be running below command:
-``ansible-galaxy collection list``
+
+  ``ansible-galaxy collection list``
+
 
 - Install it using the command:
-``ansible-galaxy collection install kubernetes.core``
 
-- The module has following requirements. These need to be installed as well
-	python >= 3.6
-    kubernetes >= 12.0.0
-    PyYAML >= 3.11
-    jsonpatch
+  ``ansible-galaxy collection install kubernetes.core``
+  
+
+- The module has following requirements. These need to be installed as well:
+	- python >= 3.6
+    - kubernetes >= 12.0.0
+    - PyYAML >= 3.11
+    - jsonpatch
 
 ## Playbook execution
 
